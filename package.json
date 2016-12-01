@@ -17,7 +17,7 @@
     "bluebird": "^3.4.6",
     "colors": "^1.1.2",
     "koa": "2",
-    "koa-router": "^5.4.0",
+    "koa-router": "next",
     "npm": "^4.0.2"
   },
   "devDependencies": {

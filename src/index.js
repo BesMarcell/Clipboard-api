@@ -11,6 +11,7 @@ router.get('/', async ctx => {
 });
 
 
+app.use(router.routes());
 const port = config.get('PORT') || config.get('server:port');
 app.listen(port, async () => {
 
