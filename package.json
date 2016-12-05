@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node ./",
     "prod": "NODE_ENV=production node ./",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test ava -v tests/api",
+    "lint": "xo ./src/**/* ./src/*"
   },
   "author": "Dima Paloskin <dima@paloskin.me>",
   "license": "ISC",
@@ -17,11 +18,34 @@
     "bluebird": "^3.4.6",
     "colors": "^1.1.2",
     "koa": "2",
-    "koa-router": "^5.4.0",
+    "koa-router": "next",
+    "lodash": "^4.17.2",
+    "mongoose": "~4.0.5",
     "npm": "^4.0.2"
   },
   "devDependencies": {
     "async-sleep": "0.0.3",
-    "ava": "^0.17.0"
+    "ava": "^0.17.0",
+    "supertest": "^2.0.1",
+    "supertest-as-promised": "^4.0.2",
+    "xo": "^0.17.1"
+  },
+  "xo": {
+    "esnext": true,
+    "space": true,
+    "rules": {
+      "import/no-extraneous-dependencies": [
+        0
+      ],
+      "padded-blocks": [
+        0
+      ],
+      "object-curly-spacing": [
+        0
+      ],
+      "ava/no-ignored-test-files": [
+        0
+      ]
+    }
   }
 }
