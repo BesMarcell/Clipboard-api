@@ -18,7 +18,10 @@
     "colors": "^1.1.2",
     "koa": "2",
     "koa-router": "next",
-    "npm": "^4.0.2"
+    "npm": "^4.0.2",
+    "mongoose": "~4.0.5",
+    "passport": "~0.2.2",
+    "passport-local": "~1.0.0"
   },
   "devDependencies": {
     "async-sleep": "0.0.3",
