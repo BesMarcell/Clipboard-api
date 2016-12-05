@@ -8,10 +8,14 @@ import clearDb from './../utils/clear-db';
 let request;
 const prefix = config.get('server:api:prefix');
 
-test.before(async () => {
-  await clearDb;
-  const app = await appPromise;
-  request = supertest.agent(app.default.listen());
+test.before(async t => {
+  try {
+    await clearDb;
+    const app = await appPromise;
+    request = supertest.agent(app.default.listen());
+  } catch (err) {
+    t.fail(err);
+  }
 });
 
 test('api: main: /', async t => {
