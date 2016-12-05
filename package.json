@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node ./",
     "prod": "NODE_ENV=production node ./",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test ava -v tests/api"
   },
   "author": "Dima Paloskin <dima@paloskin.me>",
   "license": "ISC",
@@ -19,11 +19,13 @@
     "koa": "2",
     "koa-router": "next",
     "lodash": "^4.17.2",
-    "npm": "^4.0.2",
-    "mongoose": "~4.0.5"
+    "mongoose": "~4.0.5",
+    "npm": "^4.0.2"
   },
   "devDependencies": {
     "async-sleep": "0.0.3",
-    "ava": "^0.17.0"
+    "ava": "^0.17.0",
+    "supertest": "^2.0.1",
+    "supertest-as-promised": "^4.0.2"
   }
 }

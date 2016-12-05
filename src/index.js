@@ -19,7 +19,12 @@ router.use('/auth', routes.auth.routes(), routes.auth.allowedMethods());
 app.use(router.routes());
 
 const port = config.get('PORT') || config.get('server:port');
-app.listen(port, async () => {
 
-  logger.info('Listening port %d', port);
-});
+if (config.get('environment') !== 'test') {
+  app.listen(port, async () => {
+
+    logger.info('Listening port %d', port);
+  });
+}
+
+export default app;
