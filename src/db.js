@@ -1,5 +1,5 @@
-import mongoose from ‘mongoose’;
-import Promise from ‘bluebird’;
+import mongoose from 'mongoose';
+import Promise from 'bluebird';
 import { config } from 'clipbeard';
 
 export default () => {

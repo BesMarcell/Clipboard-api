@@ -11,8 +11,6 @@ router.get('/', async ctx => {
   ctx.body = 'Hello';
 });
 
-const db = mongoose();
-
 app.use(router.routes());
 const port = config.get('PORT') || config.get('server:port');
 app.listen(port, async () => {
