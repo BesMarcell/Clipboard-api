@@ -4,6 +4,7 @@ import { config, logger } from 'clipbeard';
 import mongoose from './db';
 
 import routes from './routes';
+import User from './models/account';
 
 const app = new Koa();
 
