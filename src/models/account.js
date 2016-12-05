@@ -15,34 +15,19 @@ const UserSchema = new Schema({
 
   password: {
     type: String,
-    validate: [
-      function(password) {
-        return password && password.length > 5;
-      }, 'Password should be longer']
+    min: 6
   },
 
   avatar: {
     type: String,
-    set: function(url) {
-      if (!url) {
-        return url;
-      } else {
-        if (url.indexOf('http://') !== 0 && url.indexOf('http://') !== 0) {
-          url = 'http://' + url;
-        }
-        return url;
-      }
-    }
   },
 
   create_at: {
-    type: Date,
-    default: Date.now
+    type: Date
   },
 
   updated_at: {
-    type: Date,
-    default: Date.now
+    type: Date
   },
 });
 const User = mongoose.model('User', UserSchema);
