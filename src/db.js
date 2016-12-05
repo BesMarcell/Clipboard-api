@@ -2,4 +2,6 @@ import mongoose from 'mongoose';
 import Promise from 'bluebird';
 import { config } from 'clipbeard';
 
-export default const db = mongoose.connect(config.get('db:mongo:connectionString'));
+const connectionString = config.get('db:mongo:connectionString');
+const db = mongoose.connect(connectionString);
+export default db;
