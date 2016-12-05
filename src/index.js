@@ -4,7 +4,6 @@ import { config, logger } from 'clipbeard';
 import mongoose from './db';
 
 import routes from './routes';
-import User from './models/account';
 
 const app = new Koa();
 
@@ -17,6 +16,10 @@ router.use('/', routes.main.routes(), routes.main.allowedMethods());
 router.use('/auth', routes.auth.routes(), routes.auth.allowedMethods());
 
 app.use(router.routes());
+
+mongoose.connection.on('connected', () => {
+  logger.info('Connected to mongodb');
+});
 
 const port = config.get('PORT') || config.get('server:port');
 

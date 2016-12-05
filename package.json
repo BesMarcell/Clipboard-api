@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "node ./",
     "prod": "NODE_ENV=production node ./",
-    "test": "NODE_ENV=test ava -v tests/api"
+    "test": "NODE_ENV=test ava -v tests/api",
+    "lint": "xo ./src/**/* src/*"
   },
   "author": "Dima Paloskin <dima@paloskin.me>",
   "license": "ISC",
@@ -26,6 +27,22 @@
     "async-sleep": "0.0.3",
     "ava": "^0.17.0",
     "supertest": "^2.0.1",
-    "supertest-as-promised": "^4.0.2"
+    "supertest-as-promised": "^4.0.2",
+    "xo": "^0.17.1"
+  },
+  "xo": {
+    "esnext": true,
+    "space": true,
+    "rules": {
+      "import/no-extraneous-dependencies": [
+        0
+      ],
+      "padded-blocks": [
+        0
+      ],
+      "object-curly-spacing": [
+        0
+      ]
+    }
   }
 }
