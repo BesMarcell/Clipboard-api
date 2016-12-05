@@ -1,12 +1,15 @@
 import test from 'ava';
-import supertest  from 'supertest-as-promised';
-import appPromise from './../../index';
+import supertest from 'supertest-as-promised';
 import { config } from 'clipbeard';
+
+import appPromise from './../../index';
+import clearDb from './../utils/clear-db';
 
 let request;
 const prefix = config.get('server:api:prefix');
 
-test.before(async t => {
+test.before(async () => {
+  await clearDb;
   const app = await appPromise;
   request = supertest.agent(app.default.listen());
 });
@@ -16,7 +19,7 @@ test('api: main: /', async t => {
   const url = `${prefix}/`;
   const req = request
     .get(url)
-    .expect(200)
+    .expect(200);
 
   const { body } = await req;
 

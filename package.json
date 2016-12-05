@@ -7,7 +7,7 @@
     "dev": "node ./",
     "prod": "NODE_ENV=production node ./",
     "test": "NODE_ENV=test ava -v tests/api",
-    "lint": "xo ./src/**/* src/*"
+    "lint": "xo ./src/**/* ./src/*"
   },
   "author": "Dima Paloskin <dima@paloskin.me>",
   "license": "ISC",
