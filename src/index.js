@@ -1,7 +1,7 @@
 import Koa from 'koa';
 import koaRouter from 'koa-router';
 import { config, logger } from 'clipbeard';
-import mongoose from './db';
+import {mongoose} from './db';
 
 const app = new Koa();
 const router = koaRouter();
