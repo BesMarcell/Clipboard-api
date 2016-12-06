@@ -11,6 +11,13 @@ const router = koaRouter({
   prefix: config.get('server:api:prefix')
 });
 
+import bodyParser from 'koa-bodyparser';
+app.use(bodyParser());
+
+import passport from 'koa-passport';
+app.use(passport.initialize());
+app.use(passport.session());
+
 // add child routers
 router.use('/', routes.main.routes(), routes.main.allowedMethods());
 router.use('/auth', routes.auth.routes(), routes.auth.allowedMethods());
