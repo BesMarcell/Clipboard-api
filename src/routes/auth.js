@@ -1,5 +1,5 @@
 import koaRouter from 'koa-router';
-import authUtils from '../utils/auth-utils';
+import authUtils from '../utils/auth';
 
 const router = koaRouter();
 

@@ -7,7 +7,7 @@ import mongoose from './db';
 
 import routes from './routes';
 
-// import authUtils from './utils/auth-utils';
+// import authUtils from './utils/auth';
 
 const app = new Koa();
 

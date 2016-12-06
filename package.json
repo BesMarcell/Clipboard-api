@@ -23,7 +23,8 @@
     "koa-router": "next",
     "lodash": "^4.17.2",
     "mongoose": "~4.0.5",
-    "npm": "^4.0.2"
+    "npm": "^4.0.2",
+    "passport-local": "^1.0"
   },
   "devDependencies": {
     "async-sleep": "0.0.3",
