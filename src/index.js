@@ -1,15 +1,24 @@
 import Koa from 'koa';
 import koaRouter from 'koa-router';
 import { config, logger } from 'clipbeard';
+import bodyParser from 'koa-bodyparser';
+import passport from 'koa-passport';
 import mongoose from './db';
 
 import routes from './routes';
+
+// import authUtils from './utils/auth-utils';
 
 const app = new Koa();
 
 const router = koaRouter({
   prefix: config.get('server:api:prefix')
 });
+
+app.use(bodyParser());
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // add child routers
 router.use('/', routes.main.routes(), routes.main.allowedMethods());

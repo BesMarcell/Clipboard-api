@@ -18,6 +18,8 @@
     "bluebird": "^3.4.6",
     "colors": "^1.1.2",
     "koa": "2",
+    "koa-bodyparser": "^3.0",
+    "koa-passport": "3.0.0-rc.1",
     "koa-router": "next",
     "lodash": "^4.17.2",
     "mongoose": "~4.0.5",
