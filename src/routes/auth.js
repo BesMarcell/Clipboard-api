@@ -1,5 +1,6 @@
 import koaRouter from 'koa-router';
-import authUtils from '../utils/auth';
+import passport from 'koa-passport';
+import authUtils, {renderSignin, renderSignup, signUp} from '../utils/auth';
 
 const router = koaRouter();
 
@@ -7,35 +8,28 @@ router.get('/', async ctx => {
   ctx.body = 'Auth namespace';
 });
 
-router.get('/signin', async ctx => {
-  ctx.body = {
-    message: 'There is signin logic...'
-  };
+router.get('/signin', async ctx => renderSignin(ctx));
+router.post('/signin', async () => {
+  await passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/signin'
+  });
 });
 
-router.post('/signin', async ctx => {
-  ctx.body = {
-    message: 'There is signin logic...'
-  };
+router.post('/signup', async ctx => signUp(ctx));
+router.get('/signup', async ctx => renderSignup(ctx));
+
+router.get('/logout', async () => {
+  await ctx.logout();
+  await ctx.redirect('/');
 });
 
-router.get('/signup', async ctx => {
-  ctx.body = {
-    message: 'There is signup logic...'
-  };
-});
-
+/*
 router.post('/signup', async ctx => {
   ctx.body = {
     message: 'There is signup logic...'
   };
 });
-
-router.get('/logout', async ctx => {
-  ctx.body = {
-    message: 'There is logout logic...'
-  };
-  console.log(JSON.stringify(ctx));
-});
+*/
 
 export default router;

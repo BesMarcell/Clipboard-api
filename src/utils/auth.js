@@ -28,3 +28,35 @@ passport.use(new local.Strategy(async (email, password, done) => {
     done(err);
   }
 }));
+
+export const renderSignin = async (req, res, next) => {
+  if (!req.user) {
+    console.log('Will be send something on signin page');
+  } else {
+    return res.redirect('/');
+  }
+};
+
+export const renderSignup = async (req, res, next) => {
+  if (!req.user) {
+    console.log('Will be send something on signup page');
+  } else {
+    return res.redirect('/');
+  }
+};
+
+export const signUp = async (req, res, next) => {
+  if (!req.user) {
+    const user = new User(req.body);
+    user.provider = 'local';
+    try {
+      await user.save();
+      await req.login(user);
+      return res.redirect('/');
+    } catch (err) {
+      next(err);
+    }
+  } else {
+    return res.redirect('/');
+  }
+};
