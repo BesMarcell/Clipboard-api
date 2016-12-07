@@ -15,17 +15,19 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-passport.use(new local.Strategy(async (eMail, password, done) => {
-  console.log('--eMail----' + eMail);
-  console.log('--password----' + password);
+passport.use(new local.Strategy({
+  usernameField: 'email',
+  passwordField: 'password'
+}, async (email, password, done) => {
+  console.log('--eMail--1--' + email);
+  console.log('--password--2--' + password);
   try {
-    const user = await User.findOne({email: eMail});
-    // const user = { id: 1, email: 'user_test@example.com', password: '123' };
-    if (eMail === user.email && password === user.password) {
-      console.log('--eMail----' + eMail);
+    // const users = await User.find({});
+    const user = await User.findOne({email: email});
+    console.log('---after findOne----' + JSON.stringify(user));
+    if (email === user.email && password === user.password) {
       done(null, user);
     } else {
-      console.log('--eMail----' + eMail);
       done(null, false);
     }
   } catch (err) {

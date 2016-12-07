@@ -16,9 +16,9 @@ router.get('/logout', async ctx => {
 });
 
 router.post('/signin', async (ctx, next) => {
-  console.log('This is sign in ---' + JSON.stringify(ctx.body));
   // тут приходит мой юзвер с емейлом и логином
   await passport.authenticate('local', async (err, user, info, status) => {
+    console.log('This is sign in ---' + user);
     // there is some logic (show errors, user or something else)
     // code bellow - just EXAMPLE for show how call authenticate function correct
     /* console.log('This is sign in ---' + JSON.stringify(user));
