@@ -44,3 +44,58 @@ test('api: main: /test', async t => {
   t.is(body.message, 'test route');
   t.pass();
 });
+
+test('api: auth: /signin fail', async t => {
+
+  const url = `${prefix}/auth/signin`;
+  const req = request
+   .post(url)
+    .send({email: 'user_unknown@example.com', password: '1234'})
+    .expect(200);
+
+  const { body } = await req;
+
+  t.is(body.success, false);
+});
+
+test('api: auth: /signup', async t => {
+
+  const url = `${prefix}/auth/signup`;
+  const req = request
+   .post(url)
+    .send({email: 'user_test@example.com', password: '123'})
+    .expect(200);
+
+  // email, created_at, updated_at пока лежит и avatar
+  const { body } = await req;
+  body.password = '';
+
+  t.is(body.email, 'user_test@example.com');
+  t.is(body.provider, 'local');
+  t.is(body.password, '');
+});
+
+test('api: auth: /signin', async t => {
+
+  const url = `${prefix}/auth/signin`;
+  const req = request
+   .post(url)
+    .send({email: 'user_test@example.com', password: '123'})
+    .expect(200);
+
+  const { body } = await req;
+
+  t.is(body.success, true);
+});
+
+test('api: auth: /logout', async t => {
+
+  const url = `${prefix}/auth/logout`;
+  const req = request
+    .get(url)
+    .expect(200);
+
+  const { body } = await req;
+
+  t.is(body.success, true);
+});

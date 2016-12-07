@@ -1,5 +1,4 @@
 import passport from 'koa-passport';
-  // After here will be logic passport.serializeUser, passport.deserializeUser and other
 import local from 'passport-local';
 import User from '../models/account';
 
@@ -16,10 +15,11 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-passport.use(new local.Strategy(async (email, password, done) => {
+passport.use(new local.Strategy(async (eMail, password, done) => {
   try {
-    const user = await User.findOne({email: email});
-    if (email === user.email && password === user.password) {
+    const user = await User.findOne({email: eMail});
+    // const user = { id: 1, email: 'user_test@example.com', password: '123' };
+    if (eMail === user.email && password === user.password) {
       done(null, user);
     } else {
       done(null, false);
@@ -29,9 +29,11 @@ passport.use(new local.Strategy(async (email, password, done) => {
   }
 }));
 
+export default passport;
+/*
 export const renderSignin = async (req, res, next) => {
   if (!req.user) {
-    console.log('Will be send something on signin page');
+
   } else {
     return res.redirect('/');
   }
@@ -46,17 +48,13 @@ export const renderSignup = async (req, res, next) => {
 };
 
 export const signUp = async (req, res, next) => {
-  if (!req.user) {
-    const user = new User(req.body);
-    user.provider = 'local';
-    try {
-      await user.save();
-      await req.login(user);
-      return res.redirect('/');
-    } catch (err) {
-      next(err);
-    }
-  } else {
-    return res.redirect('/');
+  const user = new User(req.body);
+  user.provider = 'local';
+  try {
+    await user.save();
+    await req.login(user);
+  } catch (err) {
+    next(err);
   }
 };
+*/
