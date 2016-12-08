@@ -1,17 +1,19 @@
 import Promise from 'bluebird';
 import db from './../../src/db';
 
-const promise = new Promise((resolve, reject) => {
+export default () => {
+  const promise = new Promise((resolve, reject) => {
 
-  db.connection.on('open', () => {
-    db.connection.db.dropDatabase(err => {
-      if (err) {
-        return reject(err);
-      }
+    db.connection.on('open', () => {
+      db.connection.db.dropDatabase(err => {
+        if (err) {
+          return reject(err);
+        }
 
-      resolve();
+        console.log('resolve clearDb');
+        resolve();
+      });
     });
   });
-});
-
-export default promise;
+  return promise;
+};

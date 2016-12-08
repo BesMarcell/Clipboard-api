@@ -16,12 +16,7 @@ router.get('/logout', async ctx => {
 });
 
 router.post('/signin', async (ctx, next) => {
-  // тут приходит мой юзвер с емейлом и логином
   await passport.authenticate('local', async (err, user, info, status) => {
-    console.log('This is sign in ---' + user);
-    // there is some logic (show errors, user or something else)
-    // code bellow - just EXAMPLE for show how call authenticate function correct
-    /* console.log('This is sign in ---' + JSON.stringify(user));
     if (user === false) {
       ctx.body = { success: false };
       ctx.throw(401);
@@ -29,7 +24,6 @@ router.post('/signin', async (ctx, next) => {
       ctx.body = { success: true };
       return ctx.login(user);
     }
-*/
     console.log(err, user, info, status);
     ctx.body = user;
   })(ctx, next);
@@ -37,18 +31,18 @@ router.post('/signin', async (ctx, next) => {
 
 router.post('/signup', async (ctx, next) => {
   const user = new User(ctx.request.body);
-  // console.log('++++++++++++' + ctx.request.body.email);
-  const flag = await User.findOne({email: ctx.request.body.email});
-  // console.log('++++++++++++' + JSON.stringify(flag));
+  const userExists = await User.findOne({email: ctx.request.body.email});
   user.provider = 'local';
-  if (!flag) {
-    console.log('we are in try');
+  if (!userExists) {
     try {
       const result = await user.save();
       ctx.body = result;
     } catch (err) {
       next(err);
     }
+  } else {
+    ctx.body = { success: false };
+    ctx.throw(401);
   }
 });
 

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "node ./",
     "prod": "NODE_ENV=production node ./",
-    "test": "NODE_ENV=test ava -v tests/api",
+    "test": "NODE_ENV=test ava -v -c 1 tests/api",
     "lint": "xo ./src/**/* ./src/*"
   },
   "author": "Dima Paloskin <dima@paloskin.me>",
