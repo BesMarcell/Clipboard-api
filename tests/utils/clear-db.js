@@ -10,7 +10,6 @@ export default () => {
           return reject(err);
         }
 
-        console.log('resolve clearDb');
         resolve();
       });
     });

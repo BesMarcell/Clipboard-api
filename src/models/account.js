@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
+const AccountSchema = new Schema({
   provider: {
     type: String,
     required: true,
@@ -12,7 +12,6 @@ const UserSchema = new Schema({
   email: {
     type: String,
     match: [/.+@.+\..+/, 'Please fill a valid e-mail address']},
-    // unique: true},
 
   authToken: String,
 
@@ -29,5 +28,5 @@ const UserSchema = new Schema({
   timestamps: true
 });
 
-const User = mongoose.model('User', UserSchema);
-export default User;
+const Account = mongoose.model('Account', AccountSchema);
+export default Account;

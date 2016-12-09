@@ -1,15 +1,15 @@
 import passport from 'koa-passport';
 import local from 'passport-local';
-import User from '../models/account';
+import Account from '../models/account';
 
-passport.serializeUser((user, done) => {
-  done(null, user._id);
+passport.serializeUser((account, done) => {
+  done(null, account._id);
 });
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await User.findById(id);
-    done(null, user);
+    const account = await Account.findById(id);
+    done(null, account);
   } catch (err) {
     done(err);
   }
@@ -20,9 +20,9 @@ passport.use(new local.Strategy({
   passwordField: 'password'
 }, async (email, password, done) => {
   try {
-    const user = await User.findOne({email: email});
-    if (email === user.email && password === user.password) {
-      done(null, user);
+    const account = await Account.findOne({ email });
+    if (email === account.email && password === account.password) {
+      done(null, account);
     } else {
       done(null, false);
     }

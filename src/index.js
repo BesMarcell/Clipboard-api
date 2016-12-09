@@ -1,3 +1,5 @@
+import koaValidator from 'koa-async-validator';
+
 import Koa from 'koa';
 import koaRouter from 'koa-router';
 import { config, logger } from 'clipbeard';
@@ -7,8 +9,6 @@ import mongoose from './db';
 
 import routes from './routes';
 
-// import authUtils from './utils/auth';
-
 const app = new Koa();
 
 const router = koaRouter({
@@ -16,6 +16,8 @@ const router = koaRouter({
 });
 
 app.use(bodyParser());
+// add koa-async-validar
+app.use(koaValidator());
 
 app.use(passport.initialize());
 app.use(passport.session());
