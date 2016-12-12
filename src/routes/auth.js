@@ -1,7 +1,6 @@
-// import util from 'util';
 import koaRouter from 'koa-router';
 import passport from '../utils/auth';
-
+import { signupValidate, signinValidate, signinValidateErrors, signupValidateErrors } from '../utils/auth.validate';
 import Account from '../models/account';
 
 const router = koaRouter();
@@ -16,28 +15,13 @@ router.get('/logout', async ctx => {
 });
 
 router.post('/signin', async (ctx, next) => {
-  // koa-async-validator ->
-  ctx.checkBody({
-    email: {
-      notEmpty: true,
-      isEmail: {
-        errorMessage: 'Invalid Email'
-      }
-    },
-    password: {
-      isLength: {
-        options: [{ min: 6 }],
-        errorMessage: 'Password must be longer then 5 chars'
-      }
-    }
-  });
-  const errors = await ctx.validationErrors();
+  const errors = await signinValidate(ctx);
   if (errors) {
-    ctx.status = 401;
+    await signinValidateErrors(ctx, errors);
   } else {
     await passport.authenticate('local', async (err, account) => {
       if (account === false) {
-        ctx.throw(401);
+        ctx.throw(401, 'Incorrect email and password');
       } else {
         ctx.body = { user: {
           _id: account._id,
@@ -52,29 +36,13 @@ router.post('/signin', async (ctx, next) => {
 });
 
 router.post('/signup', async (ctx, next) => {
-  // koa-async-validator ->
-  ctx.checkBody({
-    email: {
-      notEmpty: true,
-      isEmail: {
-        errorMessage: 'Invalid Email'
-      }
-    },
-    password: {
-      isLength: {
-        options: [{ min: 6 }],
-        errorMessage: 'Password must be longer then 5 chars'
-      }
-    }
-  });
-  const errors = await ctx.validationErrors();
+  const errors = await signupValidate(ctx);
   if (errors) {
-    ctx.status = 400;
+    await signupValidateErrors(ctx, errors);
   } else {
-  // <- koa-async-validator
     const accountExists = await Account.findOne({ email: ctx.request.body.email });
     if (accountExists) {
-      ctx.throw(400);
+      ctx.throw(400, 'Email exists');
     } else {
       try {
         const account = new Account(ctx.request.body);
