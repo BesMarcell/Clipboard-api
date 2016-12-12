@@ -28,5 +28,12 @@ const AccountSchema = new Schema({
   timestamps: true
 });
 
+AccountSchema.options.toJSON = {
+  transform: (doc, ret) => {
+    delete ret.password;
+    return ret;
+  }
+};
+
 const Account = mongoose.model('Account', AccountSchema);
 export default Account;

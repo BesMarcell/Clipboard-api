@@ -21,6 +21,8 @@ export const signupValidate = async ctx => {
 };
 
 export const signinValidate = async ctx => {
+  ctx.sanitize('email').trim();
+  ctx.sanitize('password').trim();
   ctx.checkBody({
     email: {
       notEmpty: true,

@@ -23,11 +23,7 @@ router.post('/signin', async (ctx, next) => {
       if (account === false) {
         ctx.throw(401, 'Incorrect email and password');
       } else {
-        ctx.body = { user: {
-          _id: account._id,
-          email: account.email,
-          avatar: account.avatar
-        } };
+        ctx.body = account;
         return ctx.login(account);
       }
     })(ctx, next);

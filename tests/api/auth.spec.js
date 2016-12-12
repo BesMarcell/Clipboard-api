@@ -94,19 +94,23 @@ test('api: auth: /signup - FAIL registration new user : double registration', as
 });
 
 test('api: auth: /signin - SUCCESS login', async t => {
+  const userTrue = {
+    email: 'initial-user@example.com',
+    password: '1234567'
+  };
   const url = `${prefix}/auth/signin`;
   const req = request
    .post(url)
-    .send(user)
+    .send(userTrue)
     .expect(200);
   const { body } = await req;
-  t.is(body.user.email, 'initial-user@example.com');
+  t.is(body.email, 'initial-user@example.com');
 });
 
 test('api: auth: /signin - FAIL login: user - unknown', async () => {
   const userFail = {
     email: 'user_unknown@example.com',
-    password: '123456789'
+    password: '12345678'
   };
   const url = `${prefix}/auth/signin`;
   const req = request
