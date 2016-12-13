@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
+const AccountSchema = new Schema({
   provider: {
     type: String,
     required: true,
@@ -28,5 +28,12 @@ const UserSchema = new Schema({
   timestamps: true
 });
 
-const User = mongoose.model('User', UserSchema);
-export default User;
+AccountSchema.options.toJSON = {
+  transform: (doc, ret) => {
+    delete ret.password;
+    return ret;
+  }
+};
+
+const Account = mongoose.model('Account', AccountSchema);
+export default Account;

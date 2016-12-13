@@ -1,16 +1,13 @@
 import test from 'ava';
 import supertest from 'supertest-as-promised';
 import { config } from 'clipbeard';
-
 import appPromise from './../../index';
-import clearDb from './../utils/clear-db';
 
 let request;
 const prefix = config.get('server:api:prefix');
 
 test.before(async t => {
   try {
-    await clearDb;
     const app = await appPromise;
     request = supertest.agent(app.default.listen());
   } catch (err) {
