@@ -21,7 +21,7 @@ router.post('/signin', async (ctx, next) => {
   }
   await passport.authenticate('local', async (err, account) => {
     if (account === false) {
-      return ctx.throw(401, JSON.stringify({ error: 'Incorrect email and password' }));
+      return ctx.jsonThrow(401, { error: 'Incorrect email and password' });
     }
     ctx.body = account;
     return ctx.login(account);
@@ -36,7 +36,7 @@ router.post('/signup', async (ctx, next) => {
   const accountExists = await Account.findOne({ email: ctx.request.body.email });
   if (accountExists) {
     ctx.type = 'json';
-    return ctx.throw(400, JSON.stringify({ error: 'email exists' }));
+    return ctx.jsonThrow(400, { error: 'email exists' });
   }
   try {
     const account = new Account(ctx.request.body);

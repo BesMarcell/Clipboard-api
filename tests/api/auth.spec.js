@@ -82,14 +82,15 @@ test('api: auth: /signup - FAIL registration new account : no email entered ', a
   t.is(body.errors[1].msg, 'Invalid Email');
 });
 
-test('api: auth: /signup - FAIL registration new account : double registration', async () => {
+test('api: auth: /signup - FAIL registration new account : double registration', async t => {
   const url = `${prefix}/auth/signup`;
   const req = request
    .post(url)
     .send({ email: 'initial-account@example.com', password: '12345678' })
     .expect(400, JSON.stringify({ error: 'email exists' }));
 
-  await req;
+  const { body } = await req;
+  t.is(body.error, 'email exists');
 });
 
 test('api: auth: /signin - SUCCESS login', async t => {
@@ -106,7 +107,7 @@ test('api: auth: /signin - SUCCESS login', async t => {
   t.is(body.email, 'initial-account@example.com');
 });
 
-test('api: auth: /signin - FAIL login: account - unknown', async () => {
+test('api: auth: /signin - FAIL login: account - unknown', async t => {
   const accountFail = {
     email: 'account_unknown@example.com',
     password: '12345678'
@@ -117,10 +118,11 @@ test('api: auth: /signin - FAIL login: account - unknown', async () => {
     .send(accountFail)
     .expect(401, JSON.stringify({ error: 'Incorrect email and password' }));
 
-  await req;
+  const { body } = await req;
+  t.is(body.error, 'Incorrect email and password');
 });
 
-test('api: auth: /signin - FAIL login: password is fail', async () => {
+test('api: auth: /signin - FAIL login: password is fail', async t => {
   const accountFail = {
     email: 'initial-account@example.com',
     password: '12345678'
@@ -129,9 +131,10 @@ test('api: auth: /signin - FAIL login: password is fail', async () => {
   const req = request
    .post(url)
     .send(accountFail)
-    .expect(401, JSON.stringify({ error: 'Incorrect email and password' }));
+    .expect(401);
 
-  await req;
+  const { body } = await req;
+  t.is(body.error, 'Incorrect email and password');
 });
 
 test('api: auth: /signin - FAIL login: password is shorter then 5 chatacters', async t => {
