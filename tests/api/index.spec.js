@@ -2,19 +2,13 @@ import test from 'ava';
 import supertest from 'supertest-as-promised';
 import { config } from 'clipbeard';
 import appPromise from './../../index';
-// import clearDb from './../utils/clear-db';
-// import createUser from './../utils/create-user';
-// import db from './../../src/db';
 
 let request;
-// let user;
 const prefix = config.get('server:api:prefix');
 
 test.before(async t => {
   try {
     const app = await appPromise;
-    // await clearDb();
-    // user = await createUser();
     request = supertest.agent(app.default.listen());
   } catch (err) {
     t.fail(err);
