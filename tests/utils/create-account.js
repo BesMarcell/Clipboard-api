@@ -1,22 +1,22 @@
 import Promise from 'bluebird';
 import Account from '../../src/models/account';
 
-const newUser = {
-  email: 'initial-user@example.com',
+const newAccount = {
+  email: 'initial-account@example.com',
   password: '1234567',
   provider: 'local'
 };
 
 export default () => {
-  const createUserPromise = new Promise(async (resolve, reject) => {
+  const createAccountPromise = new Promise(async (resolve, reject) => {
 
     try {
-      const account = await new Account(newUser).save();
+      const account = await new Account(newAccount).save();
       resolve(account);
     } catch (err) {
       reject(err);
     }
 
   });
-  return createUserPromise;
+  return createAccountPromise;
 };

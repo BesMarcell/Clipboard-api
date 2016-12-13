@@ -21,11 +21,13 @@ passport.use(new local.Strategy({
 }, async (email, password, done) => {
   try {
     const account = await Account.findOne({ email });
-    if (email === account.email && password === account.password) {
-      done(null, account);
-    } else {
-      done(null, false);
+    if (!account) {
+      return done(null, false);
     }
+    if (password !== account.password) {
+      return done(null, false);
+    }
+    return done(null, account);
   } catch (err) {
     done(null, false);
   }

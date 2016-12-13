@@ -44,10 +44,10 @@ export const signinValidate = async ctx => {
 
 export const signinValidateErrors = async (ctx, errors) => {
   ctx.status = 401;
-  ctx.body = { err: errors };
+  ctx.body = { errors };
 };
 
 export const signupValidateErrors = async (ctx, errors) => {
   ctx.status = 400;
-  ctx.body = { err: errors };
+  ctx.body = { errors };
 };

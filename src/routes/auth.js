@@ -17,43 +17,35 @@ router.get('/logout', async ctx => {
 router.post('/signin', async (ctx, next) => {
   const errors = await signinValidate(ctx);
   if (errors) {
-    await signinValidateErrors(ctx, errors);
-  } else {
-    await passport.authenticate('local', async (err, account) => {
-      if (account === false) {
-        ctx.throw(401, 'Incorrect email and password');
-      } else {
-        ctx.body = account;
-        return ctx.login(account);
-      }
-    })(ctx, next);
+    return await signinValidateErrors(ctx, errors);
   }
-
+  await passport.authenticate('local', async (err, account) => {
+    if (account === false) {
+      return ctx.throw(401, JSON.stringify({ error: 'Incorrect email and password' }));
+    }
+    ctx.body = account;
+    return ctx.login(account);
+  })(ctx, next);
 });
 
 router.post('/signup', async (ctx, next) => {
   const errors = await signupValidate(ctx);
   if (errors) {
-    await signupValidateErrors(ctx, errors);
-  } else {
-    const accountExists = await Account.findOne({ email: ctx.request.body.email });
-    if (accountExists) {
-      ctx.throw(400, 'Email exists');
-    } else {
-      try {
-        const account = new Account(ctx.request.body);
-        account.provider = 'local';
-        const result = await account.save();
-        ctx.body = { user: {
-          _id: result._id,
-          email: result.email,
-          avatar: result.avatar
-        } };
-        await next();
-      } catch (err) {
-        next(err);
-      }
-    }
+    return await signupValidateErrors(ctx, errors);
+  }
+  const accountExists = await Account.findOne({ email: ctx.request.body.email });
+  if (accountExists) {
+    ctx.type = 'json';
+    return ctx.throw(400, JSON.stringify({ error: 'email exists' }));
+  }
+  try {
+    const account = new Account(ctx.request.body);
+    account.provider = 'local';
+    const result = await account.save();
+    ctx.body = result;
+    await next();
+  } catch (err) {
+    next(err);
   }
 });
 
