@@ -1,6 +1,7 @@
 import koaValidator from 'koa-async-validator';
 
 import Koa from 'koa';
+import cors from 'koa-cors';
 import koaRouter from 'koa-router';
 import { config, logger } from 'clipbeard';
 import bodyParser from 'koa-bodyparser';
@@ -10,6 +11,8 @@ import jsonThrow from './middleware/json-throw';
 import routes from './routes';
 
 const app = new Koa();
+
+app.use(cors(config.get('cors')));
 
 const router = koaRouter({
   prefix: config.get('server:api:prefix')
