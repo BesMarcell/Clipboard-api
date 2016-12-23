@@ -6,9 +6,6 @@ import Account from '../models/account';
 const router = koaRouter();
 
 router.get('/', async ctx => {
-  // console.log('---'+JSON.stringify(ctx));
-  // console.log('+++'+JSON.stringify(ctx.request.header));
-  console.log('+++'+JSON.stringify(ctx.request));
   ctx.body = 'Auth namespace';
 });
 

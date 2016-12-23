@@ -12,7 +12,7 @@ import routes from './routes';
 
 const app = new Koa();
 
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cors());
 
 const router = koaRouter({
   prefix: config.get('server:api:prefix')
