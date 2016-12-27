@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/nodejs /usr/bin/yarn add koa-cors
+  /usr/bin/nodejs /usr/bin/yarn add koa-session-redis
 
 PATH: 
   /home/kolyan/.npm-packages/bin:/home/kolyan/bin:/home/kolyan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -37,13 +37,15 @@ npm manifest:
       "koa-async-validator": "^0.1.2",
       "koa-body": "^1.6.0",
       "koa-bodyparser": "^3.0",
+      "koa-cors": "^0.0.16",
       "koa-passport": "3.0.0-rc.1",
       "koa-router": "next",
       "koa-validate": "^1.0.7",
       "lodash": "^4.17.2",
       "mongoose": "~4.0.5",
       "npm": "^4.0.2",
-      "passport-local": "^1.0"
+      "passport-local": "^1.0",
+      "redis": "^2.6.3"
     },
     "devDependencies": {
       "async-sleep": "0.0.3",
@@ -1272,7 +1274,7 @@ Lockfile:
       graceful-fs "^4.1.2"
       mkdirp "~0.5.0"
   
-  co-body@^4.2.0:
+  co-body@*, co-body@^4.2.0:
     version "4.2.0"
     resolved "https://registry.yarnpkg.com/co-body/-/co-body-4.2.0.tgz#74df20fa73262125dc45482af04e342ea8db3515"
     dependencies:
@@ -1553,6 +1555,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/dot-prop/-/dot-prop-3.0.0.tgz#1b708af094a49c9a0e7dbcad790aba539dac1177"
     dependencies:
       is-obj "^1.0.0"
+  
+  double-ended-queue@^2.1.0-0:
+    version "2.1.0-0"
+    resolved "https://registry.yarnpkg.com/double-ended-queue/-/double-ended-queue-2.1.0-0.tgz#103d3527fd31528f40188130c841efdd78264e5c"
   
   duplexer2@^0.1.4:
     version "0.1.4"
@@ -1889,6 +1895,10 @@ Lockfile:
     dependencies:
       fill-range "^2.1.0"
   
+  extend@1.3.0:
+    version "1.3.0"
+    resolved "https://registry.yarnpkg.com/extend/-/extend-1.3.0.tgz#d1516fb0ff5624d2ebf9123ea1dac5a1994004f8"
+  
   extend@^3.0.0, extend@~3.0.0:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.0.tgz#5a474353b9f3353ddd8176dfd37b91c83a46f1d4"
@@ -2010,7 +2020,7 @@ Lockfile:
       combined-stream "^1.0.5"
       mime-types "^2.1.12"
   
-  formidable@^1.0.17:
+  formidable@1.0.17, formidable@^1.0.17:
     version "1.0.17"
     resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.0.17.tgz#ef5491490f9433b705faa77249c99029ae348559"
   
@@ -2694,6 +2704,16 @@ Lockfile:
     dependencies:
       jju "^1.1.0"
   
+  json-path@^0.1.3:
+    version "0.1.3"
+    resolved "https://registry.yarnpkg.com/json-path/-/json-path-0.1.3.tgz#dce61357b3b281b28ac647ec0a709bc58a155bf8"
+    dependencies:
+      json-ptr "~0.1.1"
+  
+  json-ptr@~0.1.1:
+    version "0.1.1"
+    resolved "https://registry.yarnpkg.com/json-ptr/-/json-ptr-0.1.1.tgz#bab82a31e292ce7af9e3fc7fd65acd1bbb9248e8"
+  
   json-schema@0.2.3:
     version "0.2.3"
     resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.2.3.tgz#b480c892e59a2f05954ce727bd3f2a4e882f9e13"
@@ -2752,6 +2772,23 @@ Lockfile:
     dependencies:
       is-buffer "^1.0.2"
   
+  koa-async-validator@^0.1.2:
+    version "0.1.2"
+    resolved "https://registry.yarnpkg.com/koa-async-validator/-/koa-async-validator-0.1.2.tgz#497d40f11fd07cfde730ccccaedbd00f7213dfde"
+    dependencies:
+      babel-runtime "^6.11.6"
+      lodash "^4.16.4"
+      regenerator-runtime "^0.9.5"
+      validator "^6.1.0"
+  
+  koa-body@^1.6.0:
+    version "1.6.0"
+    resolved "https://registry.yarnpkg.com/koa-body/-/koa-body-1.6.0.tgz#2e44d7c9ee1b55e2a995c32145cb874e4dbe29ae"
+    dependencies:
+      co-body "*"
+      extend "1.3.0"
+      formidable "1.0.17"
+  
   koa-bodyparser@^3.0:
     version "3.2.0"
     resolved "https://registry.yarnpkg.com/koa-bodyparser/-/koa-bodyparser-3.2.0.tgz#b916de17e2039fe82650481973d7c294f10b5719"
@@ -2770,6 +2807,10 @@ Lockfile:
     dependencies:
       co "^4.6.0"
       koa-compose "^3.0.0"
+  
+  koa-cors@^0.0.16:
+    version "0.0.16"
+    resolved "https://registry.yarnpkg.com/koa-cors/-/koa-cors-0.0.16.tgz#98107993a7909e34c042986c5ec6156d77f3432e"
   
   koa-is-json@^1.0.0:
     version "1.0.0"
@@ -2790,6 +2831,13 @@ Lockfile:
       koa-compose "^3.0.0"
       methods "^1.0.1"
       path-to-regexp "^1.1.1"
+  
+  koa-validate@^1.0.7:
+    version "1.0.7"
+    resolved "https://registry.yarnpkg.com/koa-validate/-/koa-validate-1.0.7.tgz#0b7dd3feee83cae1b4694fa06376477d945eb430"
+    dependencies:
+      json-path "^0.1.3"
+      validator "^5.2.0"
   
   koa@2:
     version "2.0.0"
@@ -2940,7 +2988,7 @@ Lockfile:
     version "4.4.0"
     resolved "https://registry.yarnpkg.com/lodash.without/-/lodash.without-4.4.0.tgz#3cd4574a00b67bae373a94b748772640507b7aac"
   
-  lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.2, lodash@^4.2.0, lodash@^4.3.0:
+  lodash@^4.0.0, lodash@^4.13.1, lodash@^4.16.4, lodash@^4.17.2, lodash@^4.2.0, lodash@^4.3.0:
     version "4.17.2"
     resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.2.tgz#34a3055babe04ce42467b607d700072c7ff6bf42"
   
@@ -4010,6 +4058,22 @@ Lockfile:
       indent-string "^2.1.0"
       strip-indent "^1.0.1"
   
+  redis-commands@^1.2.0:
+    version "1.3.0"
+    resolved "https://registry.yarnpkg.com/redis-commands/-/redis-commands-1.3.0.tgz#4307d8094aee1315829ab6729b37b99f62365d63"
+  
+  redis-parser@^2.0.0:
+    version "2.3.0"
+    resolved "https://registry.yarnpkg.com/redis-parser/-/redis-parser-2.3.0.tgz#313a47965e49ee35ab3a86c93388b403d76237f6"
+  
+  redis@^2.6.3:
+    version "2.6.3"
+    resolved "https://registry.yarnpkg.com/redis/-/redis-2.6.3.tgz#84305b92553c6a1f09c7c47c30b11ace7dbb7ad4"
+    dependencies:
+      double-ended-queue "^2.1.0-0"
+      redis-commands "^1.2.0"
+      redis-parser "^2.0.0"
+  
   regenerate@^1.2.1:
     version "1.3.2"
     resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.3.2.tgz#d1941c67bad437e1be76433add5b385f95b19260"
@@ -4626,6 +4690,14 @@ Lockfile:
     dependencies:
       builtins "0.0.7"
   
+  validator@^5.2.0:
+    version "5.7.0"
+    resolved "https://registry.yarnpkg.com/validator/-/validator-5.7.0.tgz#7a87a58146b695ac486071141c0c49d67da05e5c"
+  
+  validator@^6.1.0:
+    version "6.2.0"
+    resolved "https://registry.yarnpkg.com/validator/-/validator-6.2.0.tgz#b2cccdc49ff0f4b8ee4e61dba2ddd3dde13f23e7"
+  
   vary@^1.0.0:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.0.tgz#e1e5affbbd16ae768dd2674394b9ad3022653140"
@@ -4771,4 +4843,4 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.0.0.tgz#306c543835f09ee1a4cb23b7bce9ab341c91cdd4"
 
 Trace: 
-  Error: EACCES: permission denied, mkdir '/home/kolyan/Work/clipbeard/clipbeard-api/node_modules/request/node_modules/extend'
+  Error: EACCES: permission denied, unlink '/home/kolyan/Work/clipbeard/clipbeard-api/node_modules/.bin/ava'

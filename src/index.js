@@ -1,5 +1,6 @@
 import koaValidator from 'koa-async-validator';
-
+import session from 'koa-generic-session';
+import redisStore from 'koa-redis';
 import Koa from 'koa';
 import cors from 'koa-cors';
 import koaRouter from 'koa-router';
@@ -26,6 +27,11 @@ app.use(jsonThrow);
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.keys = ['keys', 'keykeys'];
+app.use(session({
+  store: redisStore(config.get('redis'))
+}));
 
 // add child routers
 router.use('/', routes.main.routes(), routes.main.allowedMethods());
