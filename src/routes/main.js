@@ -22,16 +22,15 @@ router.get('test', async ctx => {
   };
 });
 
-router.post('clipboard', async (ctx, next) => {
+router.post('clipboard', async ctx => {
   try {
     const info = ctx.request.body;
-    // info.account = ctx.state.user._id;
-    info.account = '5860fd4579d948a1100db92c';
+    info.account = ctx.session.passport.user;
     const clipboard = new Clipboard(info);
     const result = await clipboard.save();
     ctx.body = result;
   } catch (err) {
-    next(err);
+    return ctx.jsonThrow(400, { error: String(err) });
   }
 });
 

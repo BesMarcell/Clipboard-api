@@ -5,12 +5,20 @@ import Account from '../models/account';
 
 const router = koaRouter();
 
-router.get('/', async ctx => {
-  ctx.body = 'Auth namespace';
+router.get('/', async (ctx, next) => {
+  if (ctx.session.passport) {
+    try {
+      const account = await Account.findOne({ _id: ctx.session.passport.user });
+      ctx.body = account;
+    } catch (err) {
+      next(err);
+    }
+  }
 });
 
 router.get('/logout', async ctx => {
   ctx.body = { success: true };
+  ctx.session = null;
   ctx.logout();
 });
 
