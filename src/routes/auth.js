@@ -5,14 +5,16 @@ import Account from '../models/account';
 
 const router = koaRouter();
 
-router.get('/', async (ctx, next) => {
+router.get('/', async ctx => {
   if (ctx.session.passport) {
     try {
       const account = await Account.findOne({ _id: ctx.session.passport.user });
       ctx.body = account;
     } catch (err) {
-      next(err);
+      ctx.jsonThrow(404, { error: 'fail authorization' });
     }
+  } else {
+    ctx.body = '';
   }
 });
 
@@ -52,6 +54,7 @@ router.post('/signup', async (ctx, next) => {
     account.provider = 'local';
     const result = await account.save();
     ctx.body = result;
+    ctx.login(account);
   } catch (err) {
     next(err);
   }
