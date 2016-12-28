@@ -28,7 +28,6 @@ app.use(jsonThrow);
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.keys = ['keys', 'keykeys'];
 app.keys = [config.get('keys:keys'), config.get('keys:keykeys')]
 app.use(session({
   store: redisStore(config.get('redis'))
