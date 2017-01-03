@@ -4,6 +4,7 @@ import { config } from 'clipbeard';
 import appPromise from './../../index';
 import clearDb from './../utils/clear-db';
 import createAccount from './../utils/create-account';
+import createClipboard from './../utils/create-clipboard';
 
 let request;
 const prefix = config.get('server:api:prefix');
@@ -13,6 +14,8 @@ test.before(async t => {
     const app = await appPromise;
     await clearDb();
     await createAccount();
+    await createClipboard();
+    await createClipboard();
     request = supertest.agent(app.default.listen());
   } catch (err) {
     t.fail(err);
@@ -78,4 +81,58 @@ test('/clipboard - FAIL new data save. Empty VALUE', async t => {
 
   const { body } = await req;
   t.is(body.error, 'ValidationError: Path `value` is required.');
+});
+
+test('/clipboards - SUCCESS receive clipboards', async t => {
+  const url = `${prefix}/clipboards`;
+  const req = request
+    .get(url)
+    .expect(200);
+
+  const { body } = await req;
+  t.is(body[0].value, 'any text');
+});
+
+test('/clipboard/_id - SUCCESS receive clipboard by id', async t => {
+  const url = `${prefix}/clipboards`;
+  const req = request
+    .get(url)
+    .expect(200);
+
+  const { body } = await req;
+
+  const url2 = `${prefix}/clipboard/${body[0]._id}`;
+  const req2 = request
+    .get(url2)
+    .expect(200);
+
+  await req2;
+});
+
+test('delete /clipboard/_id - SUCCESS delete clipboard by id', async t => {
+  const url = `${prefix}/clipboards`;
+  const req = request
+    .get(url)
+    .expect(200);
+
+  const { body } = await req;
+
+  const url2 = `${prefix}/clipboard/${body[0]._id}`;
+  const req2 = request
+    .del(url2)
+    .expect(200);
+
+  await req2;
+});
+
+test('delete /clipboard/_id - FAIL delete - Unknown id', async t => {
+
+  const url = `${prefix}/clipboard/123`;
+  const req = request
+    .del(url)
+    .expect(400);
+
+  const { body } = await req;
+  t.is(body.error, 'unknown clipboard');
+
 });
