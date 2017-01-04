@@ -2,21 +2,11 @@ import koaRouter from 'koa-router';
 import passport from '../utils/auth';
 import { signupValidate, signinValidate, signinValidateErrors, signupValidateErrors } from '../utils/auth.validate';
 import Account from '../models/account';
+import isAuthenticated from './../middleware/is-authenticated';
 
 const router = koaRouter();
 
-router.get('/', async ctx => {
-  if (ctx.session.passport) {
-    try {
-      const account = await Account.findOne({ _id: ctx.session.passport.user });
-      ctx.body = account;
-    } catch (err) {
-      ctx.jsonThrow(404, { error: 'fail authorization' });
-    }
-  } else {
-    ctx.body = '';
-  }
-});
+router.get('/', isAuthenticated);
 
 router.get('/logout', async ctx => {
   ctx.body = { success: true };

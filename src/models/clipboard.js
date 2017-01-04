@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const enumObj = {
   values: ['text'],
   message: 'enum validator failed for path `{PATH}` with value `{VALUE}`'
-}
+};
 
 const Schema = mongoose.Schema;
 
