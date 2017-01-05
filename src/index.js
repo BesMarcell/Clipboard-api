@@ -36,6 +36,7 @@ app.use(session({
 // add child routers
 router.use('/', routes.main.routes(), routes.main.allowedMethods());
 router.use('/auth', routes.auth.routes(), routes.auth.allowedMethods());
+router.use('/', routes.clipboard.routes(), routes.clipboard.allowedMethods());
 
 app.use(router.routes());
 

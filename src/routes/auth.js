@@ -6,7 +6,10 @@ import isAuthenticated from './../middleware/is-authenticated';
 
 const router = koaRouter();
 
-router.get('/', isAuthenticated);
+router.get('/', isAuthenticated, async ctx => {
+  const account = await Account.findOne({ _id: ctx.session.passport.user });
+  ctx.body = account;
+});
 
 router.get('/logout', async ctx => {
   ctx.body = { success: true };
