@@ -28,7 +28,7 @@ app.use(jsonThrow);
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.keys = [config.get('keys:keys'), config.get('keys:keykeys')];
+app.keys = [config.get('keys:secret'), config.get('keys:key')];
 app.use(session({
   store: redisStore(config.get('redis'))
 }));

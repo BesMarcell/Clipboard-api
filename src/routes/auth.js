@@ -26,9 +26,8 @@ router.post('/signin', async (ctx, next) => {
     if (account === false) {
       return ctx.jsonThrow(401, { error: 'Incorrect email and password' });
     }
-    ctx.body = account;
     ctx.login(account);
-    return ctx.body;
+    ctx.body = account;
   })(ctx, next);
 });
 
@@ -46,8 +45,8 @@ router.post('/signup', async (ctx, next) => {
     const account = new Account(ctx.request.body);
     account.provider = 'local';
     const result = await account.save();
-    ctx.body = result;
     ctx.login(account);
+    ctx.body = result;
   } catch (err) {
     next(err);
   }

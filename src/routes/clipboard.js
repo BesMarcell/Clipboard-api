@@ -11,9 +11,8 @@ router.post('clipboard', isAuthenticated, async ctx => {
     const clipboard = new Clipboard(info);
     const result = await clipboard.save();
     ctx.body = result;
-    return ctx.body;
   } catch (err) {
-    return ctx.jsonThrow(400, { error: String(err) });
+    return ctx.jsonThrow(500, { error: err.message });
   }
 });
 
@@ -22,7 +21,7 @@ router.get('clipboards', isAuthenticated, async ctx => {
     const result = await Clipboard.find({ account: ctx.session.passport.user }).populate('account', 'email');
     ctx.body = result;
   } catch (err) {
-    return ctx.jsonThrow(400, { error: 'something wrong' });
+    return ctx.jsonThrow(500, { error: 'Internal server error' });
   }
 });
 
@@ -30,9 +29,8 @@ router.get('clipboard/:clipboardId', isAuthenticated, async ctx => {
   try {
     const result = await Clipboard.findById(ctx.params.clipboardId).populate('account', 'email');
     ctx.body = result;
-    return ctx.body;
   } catch (err) {
-    return ctx.jsonThrow(400, { error: 'something wrong' });
+    return ctx.jsonThrow(500, { error: 'Internal server error' });
   }
 });
 
@@ -41,19 +39,20 @@ router.del('clipboard/:clipboardId', isAuthenticated, async ctx => {
     const result = await Clipboard.findById(ctx.params.clipboardId);
     await result.remove();
     ctx.body = result;
-    return ctx.body;
   } catch (err) {
-    return ctx.jsonThrow(400, { error: 'unknown clipboard' });
+    return ctx.jsonThrow(404, { error: 'Clipboard does not found' });
   }
 });
 
 router.put('clipboard/:clipboardId', isAuthenticated, async ctx => {
   try {
-    const clipboard = ctx.body;
+    const clipboard = await Clipboard.findById(ctx.params.clipboardId);
+    clipboard.value = ctx.request.body.value;
+    clipboard.type = ctx.request.body.type;
     await clipboard.save();
-    return ctx.body;
+    ctx.body = clipboard;
   } catch (err) {
-    return ctx.jsonThrow(400, { error: 'something wrong' });
+    return ctx.jsonThrow(500, { error: 'Internal server error' });
   }
 });
 

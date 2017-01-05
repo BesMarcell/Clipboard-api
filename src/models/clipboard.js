@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const enumObj = {
+const typesEnum = {
   values: ['text'],
   message: 'enum validator failed for path `{PATH}` with value `{VALUE}`'
 };
@@ -15,7 +15,7 @@ const ClipboardSchema = new Schema({
 
   type: {
     type: String,
-    enum: enumObj,
+    enum: typesEnum,
     required: true
   },
 
