@@ -1,6 +1,7 @@
 import test from 'ava';
 import supertest from 'supertest-as-promised';
 import { config } from 'clipbeard';
+import Clipboard from '../../src/models/clipboard';
 import appPromise from './../../index';
 import clearDb from './../utils/clear-db';
 import createAccount from './../utils/create-account';
@@ -43,18 +44,18 @@ test('/clipboard - SUCCESS new data saved', async t => {
   const url = `${prefix}/clipboard`;
   const req = request
    .post(url)
-   .send({value: 'any text', type: 'text'}, {withCredentials: true})
+   .send({value: 'any text', type: 'text'})
    .expect(200);
 
   const { body } = await req;
   t.is(body.value, 'any text');
 });
 
-test('/clipboard - FAIL new data save. Value not in type ENUM', async t => {
+test('/clipboard - FAIL new data save. Value is not in type ENUM', async t => {
   const url = `${prefix}/clipboard`;
   const req = request
    .post(url)
-   .send({value: 'any text', type: 'song'}, {withCredentials: true})
+   .send({value: 'any text', type: 'song'})
    .expect(500);
 
   const { body } = await req;
@@ -65,7 +66,7 @@ test('/clipboard - FAIL new data save. Empty TYPE', async t => {
   const url = `${prefix}/clipboard`;
   const req = request
    .post(url)
-   .send({value: 'any text'}, {withCredentials: true})
+   .send({value: 'any text'})
    .expect(500);
 
   const { body } = await req;
@@ -76,58 +77,36 @@ test('/clipboard - FAIL new data save. Empty VALUE', async t => {
   const url = `${prefix}/clipboard`;
   const req = request
    .post(url)
-   .send({type: 'text'}, {withCredentials: true})
+   .send({type: 'text'})
    .expect(500);
 
   const { body } = await req;
   t.is(body.error, 'Clipboard validation failed');
 });
-/* do not work because auth has added and specification for find
-test('/clipboards - SUCCESS receive clipboards', async t => {
-  const url = `${prefix}/clipboards`;
-  const req = request
-    .get(url)
-    .expect(200);
 
-  const { body } = await req;
-  t.is(body[0].value, 'any text');
-});
-*/
-/*
 test('/clipboard/_id - SUCCESS receive clipboard by id', async t => {
-  const url = `${prefix}/clipboards`;
+  const result = await Clipboard.find();
+  const url = `${prefix}/clipboard/${result[0]._id}`;
   const req = request
     .get(url)
     .expect(200);
 
-  const { body } = await req;
-
-  const url2 = `${prefix}/clipboard/${body[0]._id}`;
-  const req2 = request
-    .get(url2)
-    .expect(200);
-
-  await req2;
+  const {body} = await req;
+  t.is(body.value, 'any text');
 });
-*/
-/*
-test('delete /clipboard/_id - SUCCESS delete clipboard by id', async t => {
-  const url = `${prefix}/clipboards`;
+
+test('/clipboard/_id - SUCCESS delete clipboard by id', async () => {
+  const result = await Clipboard.find();
+
+  const url = `${prefix}/clipboard/${result[0]._id}`;
   const req = request
-    .get(url)
-    .expect(200);
+  .del(url)
+  .expect(200);
 
-  const { body } = await req;
-
-  const url2 = `${prefix}/clipboard/${body[0]._id}`;
-  const req2 = request
-    .del(url2)
-    .expect(200);
-
-  await req2;
+  await req;
 });
-*/
-test('delete /clipboard/_id - FAIL delete - Unknown id', async t => {
+
+test('/clipboard/_id - FAIL delete - Unknown id', async t => {
 
   const url = `${prefix}/clipboard/123`;
   const req = request
@@ -136,5 +115,20 @@ test('delete /clipboard/_id - FAIL delete - Unknown id', async t => {
 
   const { body } = await req;
   t.is(body.error, 'Clipboard does not found');
+
+});
+
+test('/clipboard/_id - SUCCESS update ', async t => {
+
+  const result = await Clipboard.find();
+
+  const url = `${prefix}/clipboard/${result[0]._id}`;
+  const req = request
+    .put(url)
+    .send({ value: 'new text', type: 'text' })
+    .expect(200);
+
+  const { body } = await req;
+  t.is(body.value, 'new text');
 
 });
